@@ -17,10 +17,6 @@ public class OfferController {
     @Autowired
     private OfferRepository offerRepository;
 
-    @GetMapping("/")
-    public ResponseEntity<Iterable<Offer>> getOffers() {
-        return ResponseEntity.ok(offerRepository.findAll());
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Offer> getOfferById(@PathVariable Long id){
@@ -31,35 +27,79 @@ public class OfferController {
             return ResponseEntity.notFound().build();
     }
 
+
+    //TODO: check if sortParam exists in SortingParameter table and check direction return not Found
+    @GetMapping
+    public List<Offer> getOffers(@RequestParam(required=false) String sortParam,@RequestParam(required=false) String direction){
+        Optional<Sort.Direction> dir = Sort.Direction.fromOptionalString(direction);
+        if(dir.isPresent())
+            return offerRepository.findAllByOrderByIsFavouriteDesc(Sort.by(dir.get(), sortParam));
+        else {
+            return offerRepository.findAllByOrderByIsFavouriteDesc();
+        }
+    }
+
+   /*******************GetOffersBy***********************/
+
+    /***forSearching***/
     @GetMapping(params ="seq")
     public List<Offer> getOffersBySequence(@RequestParam String seq){
-        return offerRepository.findOffersByOfferName(seq);
+        return offerRepository.findOffersByOfferNameOrderByIsFavouriteDesc(seq);
     }
 
-    @GetMapping(params ="categoryName")
-    public List<Offer> getOffersByCategoryName(@RequestParam String categoryName){
-        return offerRepository.findOffersByCategoryName(categoryName);
+    /***CategoryId***/
+    @GetMapping(params="categoryId")
+    public List<Offer> getOffersByCategoryId(@RequestParam Long categoryId,@RequestParam(required=false) String sortParam, @RequestParam(required=false) String direction){
+        Optional<Sort.Direction> dir = Sort.Direction.fromOptionalString(direction);
+        if(dir.isPresent())
+            return offerRepository.findOffersByCategoryIdOrderByIsFavouriteDesc(categoryId,Sort.by(dir.get(), sortParam));
+        else{
+            return offerRepository.findOffersByCategoryIdOrderByIsFavouriteDesc(categoryId);
+        }
     }
 
-    @GetMapping(params ="categoryId")
-    public List<Offer> getOffersByCategoryId(@RequestParam Long categoryId){
-        return offerRepository.findOffersByCategoryId(categoryId);
+    /***CategoryName***/
+    @GetMapping(params="categoryName")
+    public List<Offer> getOffersByCategoryName(@RequestParam String categoryName,@RequestParam(required=false) String sortParam, @RequestParam(required=false) String direction){
+        Optional<Sort.Direction> dir = Sort.Direction.fromOptionalString(direction);
+        if(dir.isPresent())
+            return offerRepository.findOffersByCategoryNameOrderByIsFavouriteDesc(categoryName,Sort.by(dir.get(), sortParam));
+        else{
+            return offerRepository.findOffersByCategoryNameOrderByIsFavouriteDesc(categoryName);
+        }
     }
 
-    @GetMapping(value="/sortedAsc", params="parameterName")
-    public List<Offer> getOffersSortedAscByParameter(String parameterName){
-        if(parameterName.equals("isGoodPrice") || parameterName.equals("isFavourite"))
-            return offerRepository.findAll(Sort.by(Sort.Direction.DESC, parameterName));
+    /***GoodPrice***/
+    @GetMapping(value="/goodPrice")
+    public List<Offer> getOffersWithGoodPrice(@RequestParam(required=false) String sortParam, @RequestParam(required=false) String direction){
+        Optional<Sort.Direction> dir = Sort.Direction.fromOptionalString(direction);
+        if(dir.isPresent())
+            return offerRepository.findByIsGoodPriceTrueOrderByIsFavouriteDesc(Sort.by(dir.get(), sortParam));
         else
-            return offerRepository.findAll(Sort.by(Sort.Direction.ASC, parameterName));
+            return offerRepository.findByIsGoodPriceTrueOrderByIsFavouriteDesc();
     }
 
-    @GetMapping(value="/sortedDesc", params="parameterName")
-    public List<Offer> getOffersSortedDescByParameter(String parameterName){
-        if(parameterName.equals("isGoodPrice") || parameterName.equals("isFavourite"))
-            return offerRepository.findAll(Sort.by(Sort.Direction.ASC, parameterName));
+    /***WithGoodPriceAndCategoryId***/
+    @GetMapping(value="/goodPrice", params="categoryId")
+    public List<Offer> getOffersWithGoodPriceByCategoryId( @RequestParam Long categoryId,@RequestParam(required=false) String sortParam, @RequestParam(required=false) String direction){
+        Optional<Sort.Direction> dir = Sort.Direction.fromOptionalString(direction);
+        if(dir.isPresent())
+            return offerRepository.findByIsGoodPriceTrueAndCategoryIdOrderByIsFavouriteDesc(categoryId, Sort.by(dir.get(), sortParam));
         else
-            return offerRepository.findAll(Sort.by(Sort.Direction.DESC, parameterName));
+            return offerRepository.findByIsGoodPriceTrueAndCategoryIdOrderByIsFavouriteDesc(categoryId);
+    }
+
+    /***WithGoodPriceAndCategoryName***/
+    @GetMapping(value="/goodPrice", params="categoryName")
+    public List<Offer> getOffersWithGoodPriceByCategoryName( @RequestParam String categoryName,@RequestParam(required=false) String sortParam, @RequestParam(required=false) String direction){
+        Optional<Sort.Direction> dir = Sort.Direction.fromOptionalString(direction);
+        if(dir.isPresent())
+            return offerRepository.findByIsGoodPriceTrueAndCategoryNameOrderByIsFavouriteDesc(categoryName, Sort.by(dir.get(), sortParam));
+        else
+            return offerRepository.findByIsGoodPriceTrueAndCategoryNameOrderByIsFavouriteDesc(categoryName);
     }
 
 }
+
+
+//TODO: wyszukiwanie w dobrej cenie i wyszukiwanie w kategorii
