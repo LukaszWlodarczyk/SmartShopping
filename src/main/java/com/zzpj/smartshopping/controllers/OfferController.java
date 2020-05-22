@@ -3,7 +3,7 @@ package com.zzpj.smartshopping.controllers;
 import com.zzpj.smartshopping.model.Offer;
 import com.zzpj.smartshopping.repositories.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +32,34 @@ public class OfferController {
     }
 
     @GetMapping(params ="seq")
-    public List<Offer> getOfferBySequence(@RequestParam String seq){
+    public List<Offer> getOffersBySequence(@RequestParam String seq){
         return offerRepository.findOffersByOfferName(seq);
     }
+
+    @GetMapping(params ="categoryName")
+    public List<Offer> getOffersByCategoryName(@RequestParam String categoryName){
+        return offerRepository.findOffersByCategoryName(categoryName);
+    }
+
+    @GetMapping(params ="categoryId")
+    public List<Offer> getOffersByCategoryId(@RequestParam Long categoryId){
+        return offerRepository.findOffersByCategoryId(categoryId);
+    }
+
+    @GetMapping(value="/sortedAsc", params="parameterName")
+    public List<Offer> getOffersSortedAscByParameter(String parameterName){
+        if(parameterName.equals("isGoodPrice") || parameterName.equals("isFavourite"))
+            return offerRepository.findAll(Sort.by(Sort.Direction.DESC, parameterName));
+        else
+            return offerRepository.findAll(Sort.by(Sort.Direction.ASC, parameterName));
+    }
+
+    @GetMapping(value="/sortedDesc", params="parameterName")
+    public List<Offer> getOffersSortedDescByParameter(String parameterName){
+        if(parameterName.equals("isGoodPrice") || parameterName.equals("isFavourite"))
+            return offerRepository.findAll(Sort.by(Sort.Direction.ASC, parameterName));
+        else
+            return offerRepository.findAll(Sort.by(Sort.Direction.DESC, parameterName));
+    }
+
 }

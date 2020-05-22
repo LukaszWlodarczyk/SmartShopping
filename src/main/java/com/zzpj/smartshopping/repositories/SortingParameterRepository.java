@@ -1,9 +1,9 @@
 package com.zzpj.smartshopping.repositories;
 
-import com.zzpj.smartshopping.model.Category;
+import com.zzpj.smartshopping.model.SortingParameter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category,Long> {
+public interface SortingParameterRepository extends JpaRepository<SortingParameter,Long> {
 }

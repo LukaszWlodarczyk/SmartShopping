@@ -9,19 +9,9 @@ import java.util.List;
 
 @Repository
 public interface OfferRepository extends JpaRepository<Offer,Long> {
-//    List<Offer> findOffersByCategoryName(String name);
-//    List<Offer> findOffersByCategoryId(Long id);
+    List<Offer> findOffersByCategoryName(String name);
+    List<Offer> findOffersByCategoryId(Long id);
     @Query("Select o from Offer o where o.offerName like %:name%")
     List<Offer> findOffersByOfferName(String name);
-
-//    List<Offer> findByOrderByProductPrice();
-//    List<Offer> findByOrderByExpectedPrice();
-//    List<Offer> findByOrderByOfferName();
-//    List<Offer> findByOrderByCategoryName();
-//    List<Offer> findByOrderByGoodPrice();
-//    List<Offer> findByOrderByFavourite();
-
-
-
 
 }

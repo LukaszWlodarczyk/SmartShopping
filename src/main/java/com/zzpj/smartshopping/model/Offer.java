@@ -15,10 +15,8 @@ public class Offer {
     private Long id;
 
     private String offerName;
-    private boolean lowestDeliveryPrice;
     private double productPrice;
     private double expectedPrice;
-    private String currency;
     private int numberOfAvailableUnits;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
