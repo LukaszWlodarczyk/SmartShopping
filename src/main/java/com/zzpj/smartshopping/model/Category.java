@@ -22,4 +22,8 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
+
+    public Category(Long id) {
+        this.id = id;
+    }
 }

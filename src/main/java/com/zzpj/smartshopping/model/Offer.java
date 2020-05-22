@@ -23,6 +23,14 @@ public class Offer {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private boolean isGoodPrice;
-    private boolean isFavourite;
+    private Boolean isGoodPrice;
+    private Boolean isFavourite;
+
+    public Offer(Long id, String offerName, double productPrice, int numberOfAvailableUnits, Category category) {
+        this.id = id;
+        this.offerName = offerName;
+        this.productPrice = productPrice;
+        this.numberOfAvailableUnits = numberOfAvailableUnits;
+        this.category = category;
+    }
 }
