@@ -26,7 +26,7 @@ public class OfferController {
 
     @Autowired
     OfferService offerService;
-
+    /*************add new offer*******************/
     @PostMapping(value="/{id}", params = {"searchedPhrase", "expectedPrice"})
     public ResponseEntity<Offer> addOffer(@PathVariable Long id, @RequestParam String searchedPhrase, @RequestParam double expectedPrice){
         Offer offer = allegroService.getSearchedOfferFromAllegro(Long.toString(id),searchedPhrase);
@@ -42,7 +42,7 @@ public class OfferController {
         } else
             return ResponseEntity.notFound().build();
     }
-
+    /************add/delete from favourite***********************/
     @PutMapping(value="/{id}", params ="favourite")
     public ResponseEntity<Offer> changeFavourite(@PathVariable Long id, @RequestParam boolean favourite){
         Optional<Offer> offer = offerRepository.findById(id);
@@ -53,7 +53,7 @@ public class OfferController {
         } else
             return ResponseEntity.notFound().build();
     }
-
+    /************change expected price*********************/
     @PutMapping(value="/{id}", params ="expectedPrice")
     public ResponseEntity<Offer> changeExpectedPrice(@PathVariable Long id, @RequestParam double expectedPrice){
         Optional<Offer> offer = offerRepository.findById(id);
@@ -65,7 +65,7 @@ public class OfferController {
         } else
             return ResponseEntity.notFound().build();
     }
-
+    /***********update offer from allegro*******************/
     @PutMapping(value="/{id}")
     public ResponseEntity<Offer> updateOffer(@PathVariable Long id){
         Optional<Offer> offer = offerRepository.findById(id);
@@ -83,7 +83,7 @@ public class OfferController {
         }
         return ResponseEntity.notFound().build();
     }
-
+    /*****************delete offer***************/
     @DeleteMapping("/{id}")
     public ResponseEntity<Offer> deleteOffer(@PathVariable Long id){
         Optional<Offer> offer = offerRepository.findById(id);
@@ -94,7 +94,7 @@ public class OfferController {
         else
             return ResponseEntity.notFound().build();
     }
-
+    /************get offer by id************/
     @GetMapping("/{id}")
     public ResponseEntity<Offer> getOfferById(@PathVariable Long id){
         Optional<Offer> offer = offerRepository.findById(id);
@@ -104,7 +104,7 @@ public class OfferController {
             return ResponseEntity.notFound().build();
     }
 
-
+    /************get all offers (can be sorted)***********/
     @GetMapping
     public List<Offer> getOffers(@RequestParam(required=false) String sortParam,@RequestParam(required=false) String direction){
         if(sortParam==null && direction==null)
