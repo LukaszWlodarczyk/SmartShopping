@@ -2,13 +2,14 @@ package com.zzpj.smartshopping.controllers;
 
 import com.zzpj.smartshopping.model.Offer;
 import com.zzpj.smartshopping.repositories.OfferRepository;
+import com.zzpj.smartshopping.services.AllegroService;
 import com.zzpj.smartshopping.services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,58 @@ public class OfferController {
     private OfferRepository offerRepository;
 
     @Autowired
+    AllegroService allegroService;
+
+    @Autowired
     OfferService offerService;
+
+    @PostMapping(value="/{id}", params = {"searchedPhrase", "expectedPrice"})
+    public ResponseEntity<Offer> addOffer(@PathVariable Long id, @RequestParam String searchedPhrase, @RequestParam double expectedPrice){
+        Offer offer = allegroService.getSearchedOfferFromAllegro(Long.toString(id),searchedPhrase);
+        if(offer!=null) {
+            if(!offerRepository.findById(id).isPresent())
+            {
+                offer.setExpectedPrice(expectedPrice);
+                offer.setIsGoodPrice(offer.getProductPrice() <= offer.getExpectedPrice());
+                offerRepository.save(offer);
+                return ResponseEntity.ok(offer);
+            }
+            else return ResponseEntity.status(HttpStatus.IM_USED).build();
+        } else
+            return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping(value="/{id}", params ="favourite")
+    public ResponseEntity<Offer> changeFavourite(@PathVariable Long id, @RequestParam boolean favourite){
+        Optional<Offer> offer = offerRepository.findById(id);
+        if(offer.isPresent()) {
+            offer.get().setIsFavourite(favourite);
+            offerRepository.save(offer.get());
+            return ResponseEntity.ok(offer.get());
+        } else
+            return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping(value="/{id}", params ="expectedPrice")
+    public ResponseEntity<Offer> changeExpectedPrice(@PathVariable Long id, @RequestParam double expectedPrice){
+        Optional<Offer> offer = offerRepository.findById(id);
+        if(offer.isPresent()) {
+            offer.get().setExpectedPrice(expectedPrice);
+            offerRepository.save(offer.get());
+            return ResponseEntity.ok(offer.get());
+        } else
+            return ResponseEntity.notFound().build();
+    }
+
+//    @PutMapping(value="/{id}")
+//    public ResponseEntity<Offer> updateOffer(@PathVariable Long id, @RequestBody Offer newOffer){
+//        Optional<Offer> offer = offerRepository.findById(id);
+//        if(offer.isPresent()) {
+//            offerRepository.save(offer.get());
+//            return ResponseEntity.ok(offer.get());
+//        } else
+//            return ResponseEntity.notFound().build();
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Offer> deleteOffer(@PathVariable Long id){
