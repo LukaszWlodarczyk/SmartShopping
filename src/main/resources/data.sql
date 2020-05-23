@@ -4,11 +4,11 @@ INSERT INTO category (id, name) VALUES (3, 'Uroda');
 INSERT INTO category (id, name) VALUES (4, 'Dziecko');
 
 INSERT INTO offer (id, offer_name, product_price, expected_price, is_good_price, is_favourite, category_id, number_of_available_units)
-VALUES (9080891298, 'Apple iPhone 11 64 GB Dual SIM Czarny', 3239.01, 3100.00, false, true , 2,10);
+VALUES (9239393940, 'SAMSUNG GALAXY S10 SM-G973F DUAL SIM 128GB KOLORY', 3239.01, 3100.00, false, true , 2,10);
 INSERT INTO offer (id, offer_name, product_price, expected_price, is_good_price, is_favourite, category_id, number_of_available_units)
-VALUES (8900206445, 'Smartfon Apple iPhone X 3/64GB Silver MQAD2PM/A', 1949.00, 1950.00, true, false, 2, 1111);
+VALUES (8858730448, 'Nokia 8800 Gold Arte PL (18k złoto, oryginał)', 1900.00, 1950.00, true, false, 2, 1111);
 INSERT INTO offer (id, offer_name, product_price, expected_price, is_good_price, is_favourite, category_id, number_of_available_units)
-VALUES (8529206445, 'Apple iPhone 7 3/64GB Black MQAD2PM/A', 1249.00, 1250.00, true, true, 2, 1111);
+VALUES (7795805859, 'SAMSUNG S8 64GB - WYBÓR KOLORÓW + GRATISY - KL A+', 1249.00, 1250.00, true, true, 2, 1111);
 INSERT INTO offer (id, offer_name, product_price, expected_price, is_good_price, is_favourite, category_id, number_of_available_units)
 VALUES (8143520520, 'BRAMY GARAŻOWE ROLOWANE Brama Rolowana SZYBKO 2DNI', 1635, 1500, false, false , 1, 9);
 INSERT INTO offer (id, offer_name, product_price, expected_price, is_good_price, is_favourite, category_id, number_of_available_units)

@@ -15,6 +15,7 @@ public class OfferServiceImpl implements OfferService {
     @Autowired
     private SortingParameterRepository sortingParameterRepository;
 
+
     @Override
     public boolean checkSortingParameters(String sortParam, String direction) {
         Optional<Sort.Direction> dir = Sort.Direction.fromOptionalString(direction);

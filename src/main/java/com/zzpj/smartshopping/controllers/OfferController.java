@@ -59,21 +59,30 @@ public class OfferController {
         Optional<Offer> offer = offerRepository.findById(id);
         if(offer.isPresent()) {
             offer.get().setExpectedPrice(expectedPrice);
+            offer.get().setIsGoodPrice(offer.get().getProductPrice() <= offer.get().getExpectedPrice());
             offerRepository.save(offer.get());
             return ResponseEntity.ok(offer.get());
         } else
             return ResponseEntity.notFound().build();
     }
 
-//    @PutMapping(value="/{id}")
-//    public ResponseEntity<Offer> updateOffer(@PathVariable Long id, @RequestBody Offer newOffer){
-//        Optional<Offer> offer = offerRepository.findById(id);
-//        if(offer.isPresent()) {
-//            offerRepository.save(offer.get());
-//            return ResponseEntity.ok(offer.get());
-//        } else
-//            return ResponseEntity.notFound().build();
-//    }
+    @PutMapping(value="/{id}")
+    public ResponseEntity<Offer> updateOffer(@PathVariable Long id){
+        Optional<Offer> offer = offerRepository.findById(id);
+        if(offer.isPresent()) {
+            Offer newOffer = allegroService.getSearchedOfferFromAllegro(Long.toString(id),offer.get().getOfferName());
+            if(newOffer!=null) {
+                offer.get().setOfferName(newOffer.getOfferName());
+                offer.get().setCategory(newOffer.getCategory());
+                offer.get().setNumberOfAvailableUnits(newOffer.getNumberOfAvailableUnits());
+                offer.get().setProductPrice(newOffer.getProductPrice());
+                offer.get().setIsGoodPrice(offer.get().getProductPrice() <= offer.get().getExpectedPrice());
+                offerRepository.save(offer.get());
+                return ResponseEntity.ok(offer.get());
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Offer> deleteOffer(@PathVariable Long id){
