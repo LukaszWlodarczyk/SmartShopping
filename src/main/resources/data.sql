@@ -19,5 +19,3 @@ VALUES (9153310416, 'PAMPERS Pieluchy Active Baby 6 36szt', 43, 45, true, true, 
 INSERT INTO sorting_parameter (id, name) VALUES (1, 'productPrice');
 INSERT INTO sorting_parameter (id, name) VALUES (2, 'expectedPrice');
 INSERT INTO sorting_parameter (id, name) VALUES (3, 'offerName');
-INSERT INTO sorting_parameter (id, name) VALUES (4, 'isFavourite');
-INSERT INTO sorting_parameter (id, name) VALUES (5, 'isGoodPrice');
