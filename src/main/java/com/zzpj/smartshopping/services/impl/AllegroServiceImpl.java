@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+
 @Service
 public class AllegroServiceImpl implements AllegroService {
+
 
     public String getToken() {
         String tokenUrl = "https://allegro.pl/auth/oauth/token?grant_type=client_credentials";
@@ -34,17 +36,17 @@ public class AllegroServiceImpl implements AllegroService {
         headers.add("ACCEPT", "application/vnd.allegro.public.v1+json");
         headers.setBearerAuth(this.getToken());
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-        ResponseEntity<String> response = restTemplate.exchange("https://api.allegro.pl/offers/listing?phrase=" + searchedPhrase, HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange("https://api.allegro.pl/offers/listing?phrase=" + searchedPhrase+"&searchMode=REGULAR", HttpMethod.GET, entity, String.class);
         JSONObject result = new JSONObject(response);
         JSONObject body = new JSONObject(result.getString("body"));
         JSONObject items = body.getJSONObject("items");
         JSONArray promoted = items.getJSONArray("promoted");
         JSONArray allOffers = items.getJSONArray("regular");
-        System.out.println("++++++++++++");
+
         for (int i = 0; i < promoted.length(); i++) {
             allOffers.put(promoted.getJSONObject(i));
         }
-        JSONObject searchedOffer = new JSONObject();
+        JSONObject searchedOffer = null;
         for (int i = 0; i < allOffers.length(); i++) {
             if (allOffers.getJSONObject(i).get("id").equals(offerId)) {
                 searchedOffer = allOffers.getJSONObject(i);
@@ -62,4 +64,6 @@ public class AllegroServiceImpl implements AllegroService {
 
         return new Offer(Long.parseLong(offerId), offerName, Double.parseDouble(offerPrice), offerAvailableUnits, new Category(Long.parseLong(categoryId)));
     }
+
+
 }

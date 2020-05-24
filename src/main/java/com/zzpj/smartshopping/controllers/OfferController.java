@@ -4,7 +4,6 @@ import com.zzpj.smartshopping.model.Offer;
 import com.zzpj.smartshopping.repositories.OfferRepository;
 import com.zzpj.smartshopping.services.AllegroService;
 import com.zzpj.smartshopping.services.OfferService;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -73,19 +72,7 @@ public class OfferController {
     public ResponseEntity<Offer> updateOffer(@PathVariable Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
         if (offer.isPresent()) {
-            try {
-                Offer newOffer = allegroService.getSearchedOfferFromAllegro(Long.toString(id), offer.get().getOfferName());
-                if (newOffer != null) {
-                    offer.get().setOfferName(newOffer.getOfferName());
-                    offer.get().setCategory(newOffer.getCategory());
-                    offer.get().setNumberOfAvailableUnits(newOffer.getNumberOfAvailableUnits());
-                    offer.get().setProductPrice(newOffer.getProductPrice());
-                    offer.get().setIsGoodPrice(offer.get().getProductPrice() <= offer.get().getExpectedPrice());
-                    offerRepository.save(offer.get());
-                    return ResponseEntity.status(200).build();
-                }
-            } catch (JSONException e) {
-                System.out.println(e.getMessage());
+            if (!offerService.updateOffer(offer.get())) {
                 return ResponseEntity.status(500).build();
             }
         }

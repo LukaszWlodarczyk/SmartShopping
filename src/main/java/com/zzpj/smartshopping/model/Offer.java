@@ -24,6 +24,7 @@ public class Offer {
 
     private Boolean isGoodPrice;
     private Boolean isFavourite;
+    private Boolean isActive;
 
     public Offer(Long id, String offerName, double productPrice, int numberOfAvailableUnits, Category category) {
         this.id = id;
@@ -31,5 +32,8 @@ public class Offer {
         this.productPrice = productPrice;
         this.numberOfAvailableUnits = numberOfAvailableUnits;
         this.category = category;
+        this.isActive = true;
     }
+
+    
 }
