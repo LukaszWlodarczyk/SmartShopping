@@ -1,6 +1,5 @@
 package com.zzpj.smartshopping.controllers;
 
-
 import com.zzpj.smartshopping.model.Offer;
 import com.zzpj.smartshopping.services.AllegroService;
 import org.springframework.beans.factory.annotation.Autowired;

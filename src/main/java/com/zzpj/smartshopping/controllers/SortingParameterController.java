@@ -20,14 +20,14 @@ public class SortingParameterController {
     private SortingParameterRepository sortingParameterRepository;
 
     @GetMapping("/")
-    public ResponseEntity<Iterable<SortingParameter>> getCategories() {
+    public ResponseEntity<Iterable<SortingParameter>> getSortingParameters() {
         return ResponseEntity.ok(sortingParameterRepository.findAll());
     }
 
-    @GetMapping(params="name")
-    public ResponseEntity<SortingParameter> getSortParamByName(@RequestParam String name){
+    @GetMapping(params = "name")
+    public ResponseEntity<SortingParameter> getSortParamByName(@RequestParam String name) {
         Optional<SortingParameter> parameter = sortingParameterRepository.findByName(name);
-        if(parameter.isPresent())
+        if (parameter.isPresent())
             return ResponseEntity.ok(parameter.get());
         else
             return ResponseEntity.notFound().build();

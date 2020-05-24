@@ -40,7 +40,7 @@ public class AllegroServiceImpl implements AllegroService {
         JSONObject items = body.getJSONObject("items");
         JSONArray promoted = items.getJSONArray("promoted");
         JSONArray allOffers = items.getJSONArray("regular");
-
+        System.out.println("++++++++++++");
         for (int i = 0; i < promoted.length(); i++) {
             allOffers.put(promoted.getJSONObject(i));
         }
