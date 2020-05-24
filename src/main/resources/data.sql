@@ -16,6 +16,6 @@ VALUES (9269640410, 'Nacomi - Oczyszczająca maseczka do twarzy', 34.90, 30.00, 
 INSERT INTO offer (id, offer_name, product_price, expected_price, is_good_price, is_favourite, category_id, number_of_available_units, is_active)
 VALUES (9153310416, 'PAMPERS Pieluchy Active Baby 6 36szt', 43, 45, true, true, 4, 9, true);
 
-INSERT INTO sorting_parameter (id, name) VALUES (1, 'productPrice');
-INSERT INTO sorting_parameter (id, name) VALUES (2, 'expectedPrice');
-INSERT INTO sorting_parameter (id, name) VALUES (3, 'offerName');
+INSERT INTO sorting_parameter (id, name, translation) VALUES (1, 'productPrice', 'Cena aktualna');
+INSERT INTO sorting_parameter (id, name, translation) VALUES (2, 'expectedPrice', 'Cena spodziewana');
+INSERT INTO sorting_parameter (id, name, translation) VALUES (3, 'offerName', 'Nazwa');
