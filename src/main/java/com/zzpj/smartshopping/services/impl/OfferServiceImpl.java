@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TimerTask;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Service
 public class OfferServiceImpl extends TimerTask implements OfferService {
 
@@ -39,7 +40,12 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
 
 
     public boolean updateOffer(Offer offer) {
-        Offer updatedOffer = allegroService.getSearchedOfferFromAllegro(String.valueOf(offer.getId()), offer.getOfferUrl(), offer.getOfferName(), offer.getDisplayedName());
+        Offer updatedOffer = allegroService.getSearchedOfferFromAllegro(
+                String.valueOf(offer.getId()),
+                offer.getOfferUrl(),
+                offer.getOfferName(),
+                offer.getDisplayedName());
+
         if (updatedOffer != null) {
             offer.setOfferName(updatedOffer.getOfferName());
             offer.setOfferUrl(updatedOffer.getOfferUrl());

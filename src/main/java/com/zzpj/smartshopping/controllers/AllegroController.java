@@ -16,8 +16,16 @@ public class AllegroController {
     AllegroService allegroService;
 
     @GetMapping(params = {"offerId", "searchedPhrase"})
-    public ResponseEntity<Offer> getSearchedProduct(@RequestParam String offerId, @RequestParam String offerUrl, @RequestParam String searchedPhrase, @RequestParam String displayedName) {
-        Offer searchedOffer = allegroService.getSearchedOfferFromAllegro(offerId, offerUrl, searchedPhrase, displayedName);
+    public ResponseEntity<Offer> getSearchedProduct(
+            @RequestParam String offerId,
+            @RequestParam String offerUrl,
+            @RequestParam String searchedPhrase,
+            @RequestParam String displayedName) {
+
+        Offer searchedOffer = allegroService.getSearchedOfferFromAllegro(offerId,
+                offerUrl,
+                searchedPhrase,
+                displayedName);
         if (searchedOffer == null) {
             return ResponseEntity.notFound().build();
         } else {

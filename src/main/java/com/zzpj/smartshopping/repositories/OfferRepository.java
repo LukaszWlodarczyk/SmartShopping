@@ -14,7 +14,6 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     List<Offer> findAllByOrderByIsFavouriteDesc(Sort sort);
 
-
     List<Offer> findOffersByCategoryNameOrderByIsFavouriteDesc(String name);
 
     List<Offer> findOffersByCategoryNameOrderByIsFavouriteDesc(String name, Sort sort);

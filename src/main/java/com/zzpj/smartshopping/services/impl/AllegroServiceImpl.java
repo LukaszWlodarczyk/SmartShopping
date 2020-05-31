@@ -30,13 +30,20 @@ public class AllegroServiceImpl implements AllegroService {
         return jsonToken.getString("access_token");
     }
 
-    public Offer getSearchedOfferFromAllegro(String offerId, String offerUrl, String searchedPhrase, String displayedName) {
+    public Offer getSearchedOfferFromAllegro(String offerId,
+                                             String offerUrl,
+                                             String searchedPhrase,
+                                             String displayedName) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("ACCEPT", "application/vnd.allegro.public.v1+json");
         headers.setBearerAuth(this.getToken());
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-        ResponseEntity<String> response = restTemplate.exchange("https://api.allegro.pl/offers/listing?phrase=" + searchedPhrase + "&searchMode=REGULAR", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://api.allegro.pl/offers/listing?phrase=" + searchedPhrase + "&searchMode=REGULAR",
+                HttpMethod.GET,
+                entity,
+                String.class);
         JSONObject result = new JSONObject(response);
         JSONObject body = new JSONObject(result.getString("body"));
         JSONObject items = body.getJSONObject("items");
@@ -62,7 +69,13 @@ public class AllegroServiceImpl implements AllegroService {
         int offerAvailableUnits = searchedOffer.getJSONObject("stock").getInt("available");
         String categoryId = searchedOffer.getJSONObject("category").getString("id");
 
-        return new Offer(Long.parseLong(offerId), offerUrl, offerName, displayedName, Double.parseDouble(offerPrice), offerAvailableUnits, new Category(Long.parseLong(categoryId)));
+        return new Offer(Long.parseLong(offerId),
+                offerUrl,
+                offerName,
+                displayedName,
+                Double.parseDouble(offerPrice),
+                offerAvailableUnits,
+                new Category(Long.parseLong(categoryId)));
     }
 
 
