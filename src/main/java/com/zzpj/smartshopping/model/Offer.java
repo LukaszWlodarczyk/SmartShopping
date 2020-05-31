@@ -15,6 +15,7 @@ public class Offer {
 
     private String offerName;
     private String displayedName;
+    private String offerUrl;
     private double productPrice;
     private double expectedPrice;
     private int numberOfAvailableUnits;
@@ -27,8 +28,9 @@ public class Offer {
     private Boolean isFavourite;
     private Boolean isActive;
 
-    public Offer(Long id, String offerName, String displayedName, double productPrice, int numberOfAvailableUnits, Category category) {
+    public Offer(Long id, String offerUrl, String offerName, String displayedName, double productPrice, int numberOfAvailableUnits, Category category) {
         this.id = id;
+        this.offerUrl = offerUrl;
         this.offerName = offerName;
         this.displayedName = displayedName;
         this.productPrice = productPrice;
