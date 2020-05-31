@@ -30,7 +30,7 @@ public class AllegroServiceImpl implements AllegroService {
         return jsonToken.getString("access_token");
     }
 
-    public Offer getSearchedOfferFromAllegro(String offerId, String searchedPhrase) {
+    public Offer getSearchedOfferFromAllegro(String offerId, String searchedPhrase, String displayedName) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("ACCEPT", "application/vnd.allegro.public.v1+json");
@@ -62,7 +62,7 @@ public class AllegroServiceImpl implements AllegroService {
         int offerAvailableUnits = searchedOffer.getJSONObject("stock").getInt("available");
         String categoryId = searchedOffer.getJSONObject("category").getString("id");
 
-        return new Offer(Long.parseLong(offerId), offerName, Double.parseDouble(offerPrice), offerAvailableUnits, new Category(Long.parseLong(categoryId)));
+        return new Offer(Long.parseLong(offerId), offerName, displayedName, Double.parseDouble(offerPrice), offerAvailableUnits, new Category(Long.parseLong(categoryId)));
     }
 
 

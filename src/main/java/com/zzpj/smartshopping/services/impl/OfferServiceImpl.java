@@ -41,9 +41,10 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
 
 
     public boolean updateOffer(Offer offer) {
-        Offer updatedOffer = allegroService.getSearchedOfferFromAllegro(String.valueOf(offer.getId()), offer.getOfferName());
+        Offer updatedOffer = allegroService.getSearchedOfferFromAllegro(String.valueOf(offer.getId()), offer.getOfferName(), offer.getDisplayedName());
         if (updatedOffer != null) {
             offer.setOfferName(updatedOffer.getOfferName());
+            offer.setDisplayedName(updatedOffer.getDisplayedName());
             offer.setCategory(updatedOffer.getCategory());
             offer.setNumberOfAvailableUnits(updatedOffer.getNumberOfAvailableUnits());
             offer.setProductPrice(updatedOffer.getProductPrice());

@@ -29,8 +29,8 @@ public class OfferController {
 
     /*************add new offer*******************/
     @PostMapping(value = "/{id}", params = {"searchedPhrase", "expectedPrice"})
-    public ResponseEntity<Offer> addOffer(@PathVariable Long id, @RequestParam String searchedPhrase, @RequestParam double expectedPrice) {
-        Offer offer = allegroService.getSearchedOfferFromAllegro(Long.toString(id), searchedPhrase);
+    public ResponseEntity<Offer> addOffer(@PathVariable Long id, @RequestParam String searchedPhrase, @RequestParam String displayedName, @RequestParam double expectedPrice) {
+        Offer offer = allegroService.getSearchedOfferFromAllegro(Long.toString(id), searchedPhrase, displayedName);
         if (offer != null) {
             if (!offerRepository.findById(id).isPresent()) {
                 offer.setExpectedPrice(expectedPrice);
