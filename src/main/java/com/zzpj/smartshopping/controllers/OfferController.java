@@ -191,5 +191,4 @@ public class OfferController {
                     Sort.by(Sort.Direction.fromString(direction), sortParam));
         else return Collections.emptyList();
     }
-
 }

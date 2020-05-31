@@ -38,7 +38,6 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
         return dir.isPresent() && param.isPresent();
     }
 
-
     public boolean updateOffer(Offer offer) {
         Offer updatedOffer = allegroService.getSearchedOfferFromAllegro(
                 String.valueOf(offer.getId()),
@@ -57,7 +56,6 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
             offerRepository.save(offer);
             return true;
         } else return false;
-
     }
 
     @Override
@@ -68,7 +66,6 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
                 offer.setIsActive(false);
                 offerRepository.save(offer);
             }
-
         }
     }
 }

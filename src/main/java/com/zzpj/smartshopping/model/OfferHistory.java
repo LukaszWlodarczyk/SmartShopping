@@ -18,7 +18,6 @@ public class OfferHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private int offerId;
     private double price;
     private LocalDateTime date;

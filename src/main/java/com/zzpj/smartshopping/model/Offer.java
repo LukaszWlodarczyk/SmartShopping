@@ -44,6 +44,4 @@ public class Offer {
         this.category = category;
         this.isActive = true;
     }
-
-
 }

@@ -31,6 +31,5 @@ public class AllegroController {
         } else {
             return ResponseEntity.ok(searchedOffer);
         }
-
     }
 }

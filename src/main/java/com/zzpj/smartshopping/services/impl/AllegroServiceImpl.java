@@ -77,6 +77,4 @@ public class AllegroServiceImpl implements AllegroService {
                 offerAvailableUnits,
                 new Category(Long.parseLong(categoryId)));
     }
-
-
 }
