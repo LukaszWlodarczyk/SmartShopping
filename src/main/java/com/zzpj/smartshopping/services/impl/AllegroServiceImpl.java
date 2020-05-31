@@ -36,7 +36,7 @@ public class AllegroServiceImpl implements AllegroService {
         headers.add("ACCEPT", "application/vnd.allegro.public.v1+json");
         headers.setBearerAuth(this.getToken());
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-        ResponseEntity<String> response = restTemplate.exchange("https://api.allegro.pl/offers/listing?phrase=" + searchedPhrase+"&searchMode=REGULAR", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange("https://api.allegro.pl/offers/listing?phrase=" + searchedPhrase + "&searchMode=REGULAR", HttpMethod.GET, entity, String.class);
         JSONObject result = new JSONObject(response);
         JSONObject body = new JSONObject(result.getString("body"));
         JSONObject items = body.getJSONObject("items");

@@ -6,13 +6,11 @@ import com.zzpj.smartshopping.repositories.OfferRepository;
 import com.zzpj.smartshopping.repositories.SortingParameterRepository;
 import com.zzpj.smartshopping.services.AllegroService;
 import com.zzpj.smartshopping.services.OfferService;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.TimerTask;
 
@@ -60,7 +58,7 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
     public void run() {
         List<Offer> offers = offerRepository.findAll();
         for (Offer offer : offers) {
-                if(!updateOffer(offer)) {
+            if (!updateOffer(offer)) {
                 offer.setIsActive(false);
                 offerRepository.save(offer);
             }

@@ -19,13 +19,11 @@ import java.util.Optional;
 public class OfferController {
 
     @Autowired
-    private OfferRepository offerRepository;
-
-    @Autowired
     AllegroService allegroService;
-
     @Autowired
     OfferService offerService;
+    @Autowired
+    private OfferRepository offerRepository;
 
     /*************add new offer*******************/
     @PostMapping(value = "/{id}", params = {"searchedPhrase", "expectedPrice"})

@@ -12,7 +12,7 @@ public class SmartshoppingApplication {
 
 
     public static void main(String[] args) {
-        ApplicationContext applicationContext = (ApplicationContext) SpringApplication.run(SmartshoppingApplication.class, args);
+        ApplicationContext applicationContext = SpringApplication.run(SmartshoppingApplication.class, args);
         OfferServiceImpl service = applicationContext.getBean(OfferServiceImpl.class);
         Timer time = new Timer();
         time.schedule(service, 600000); //updating all offers every ten minutes

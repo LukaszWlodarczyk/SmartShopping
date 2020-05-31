@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SortingParameterRepository extends JpaRepository<SortingParameter,Long> {
+public interface SortingParameterRepository extends JpaRepository<SortingParameter, Long> {
     Optional<SortingParameter> findByName(String name);
 }

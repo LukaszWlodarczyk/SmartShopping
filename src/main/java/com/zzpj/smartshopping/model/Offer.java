@@ -39,5 +39,5 @@ public class Offer {
         this.isActive = true;
     }
 
-    
+
 }
