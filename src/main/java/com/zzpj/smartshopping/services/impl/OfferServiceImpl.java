@@ -8,6 +8,7 @@ import com.zzpj.smartshopping.services.AllegroService;
 import com.zzpj.smartshopping.services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,6 +59,7 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
         } else return false;
     }
 
+    @Scheduled(fixedDelay = 600000)
     @Override
     public void run() {
         List<Offer> offers = offerRepository.findAll();
