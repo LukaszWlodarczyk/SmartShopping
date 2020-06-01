@@ -40,6 +40,7 @@ public class OfferController {
             if (!offerRepository.findById(id).isPresent()) {
                 offer.setExpectedPrice(expectedPrice);
                 offer.setIsGoodPrice(offer.getProductPrice() <= offer.getExpectedPrice());
+                offer.setIsFavourite(false);
                 offerRepository.save(offer);
                 return ResponseEntity.ok(offer);
             } else return ResponseEntity.status(HttpStatus.IM_USED).build();
