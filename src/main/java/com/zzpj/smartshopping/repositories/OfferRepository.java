@@ -34,7 +34,6 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     List<Offer> findByIsGoodPriceTrueAndCategoryNameOrderByIsFavouriteDesc(String name, Sort sort);
 
-    @Query("Select o from Offer o where o.offerName like %:name% order by o.isFavourite desc")
-    List<Offer> findOffersByOfferNameOrderByIsFavouriteDesc(String name);
+    List<Offer> findOffersByDisplayedNameContainingIgnoreCaseOrderByIsFavouriteDesc(String name);
 
 }

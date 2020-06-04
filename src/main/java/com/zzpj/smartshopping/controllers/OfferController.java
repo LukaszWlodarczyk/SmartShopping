@@ -37,7 +37,7 @@ public class OfferController {
                 searchedPhrase,
                 displayedName);
         if (offer != null) {
-            if (!offerRepository.findById(id).isPresent()) {
+            if (offerRepository.findById(id).isEmpty()) {
                 offer.setExpectedPrice(expectedPrice);
                 offer.setIsGoodPrice(offer.getProductPrice() <= offer.getExpectedPrice());
                 offer.setIsFavourite(false);
@@ -93,19 +93,19 @@ public class OfferController {
         Optional<Offer> offer = offerRepository.findById(id);
         if (offer.isPresent()) {
             offerRepository.deleteById(id);
-            return ResponseEntity.ok(offer.get());
-        } else
-            return ResponseEntity.notFound().build();
+        }
+        return offer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /************get offer by id************/
     @GetMapping("/{id}")
     public ResponseEntity<Offer> getOfferById(@PathVariable Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
-        if (offer.isPresent())
-            return ResponseEntity.ok(offer.get());
-        else
-            return ResponseEntity.notFound().build();
+        return offer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+//        if (offer.isPresent())
+//            return ResponseEntity.ok(offer.get());
+//        else
+//            return ResponseEntity.notFound().build();
     }
 
     /************get all offers (can be sorted)***********/
@@ -126,7 +126,7 @@ public class OfferController {
     /***forSearching***/
     @GetMapping(params = "seq")
     public List<Offer> getOffersBySequence(@RequestParam String seq) {
-        return offerRepository.findOffersByOfferNameOrderByIsFavouriteDesc(seq);
+        return offerRepository.findOffersByDisplayedNameContainingIgnoreCaseOrderByIsFavouriteDesc(seq);
     }
 
     /***CategoryId***/
