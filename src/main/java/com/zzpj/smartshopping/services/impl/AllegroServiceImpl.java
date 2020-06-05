@@ -5,12 +5,11 @@ import com.zzpj.smartshopping.model.Offer;
 import com.zzpj.smartshopping.services.AllegroService;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+
 
 
 @Service
@@ -36,7 +35,7 @@ public class AllegroServiceImpl implements AllegroService {
                                              String displayedName) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("ACCEPT", "application/vnd.allegro.public.v1+json");
+        headers.add("ACCEPT", "application/vnd.allegro.public.v1+json; charset=utf-8");
         headers.setBearerAuth(this.getToken());
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
         ResponseEntity<String> response = restTemplate.exchange(
