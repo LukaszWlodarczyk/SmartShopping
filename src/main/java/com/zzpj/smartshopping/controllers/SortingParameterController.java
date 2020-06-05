@@ -27,9 +27,6 @@ public class SortingParameterController {
     @GetMapping(params = "name")
     public ResponseEntity<SortingParameter> getSortParamByName(@RequestParam String name) {
         Optional<SortingParameter> parameter = sortingParameterRepository.findByName(name);
-        if (parameter.isPresent())
-            return ResponseEntity.ok(parameter.get());
-        else
-            return ResponseEntity.notFound().build();
+        return parameter.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

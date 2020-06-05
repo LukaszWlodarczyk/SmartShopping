@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TimerTask;
 
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Service
 public class OfferServiceImpl extends TimerTask implements OfferService {
 

@@ -20,9 +20,9 @@ public class Offer {
     private double expectedPrice;
     private int numberOfAvailableUnits;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "category_id")
-    private Category category;
+//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JoinColumn(name = "category_name")
+    private String category;
 
     private Boolean isGoodPrice;
     private Boolean isFavourite;
@@ -34,7 +34,7 @@ public class Offer {
                  String displayedName,
                  double productPrice,
                  int numberOfAvailableUnits,
-                 Category category) {
+                 String category) {
         this.id = id;
         this.offerUrl = offerUrl;
         this.offerName = offerName;

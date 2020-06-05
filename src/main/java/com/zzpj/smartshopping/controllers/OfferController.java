@@ -1,7 +1,9 @@
 package com.zzpj.smartshopping.controllers;
 
+import com.zzpj.smartshopping.model.Category;
 import com.zzpj.smartshopping.model.Offer;
 import com.zzpj.smartshopping.repositories.OfferRepository;
+import com.zzpj.smartshopping.repositories.CategoryRepository;
 import com.zzpj.smartshopping.services.AllegroService;
 import com.zzpj.smartshopping.services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class OfferController {
     OfferService offerService;
     @Autowired
     private OfferRepository offerRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     /*************add new offer*******************/
     @PostMapping(value = "/{id}", params = {"searchedPhrase", "expectedPrice"})
@@ -42,6 +46,7 @@ public class OfferController {
                 offer.setIsGoodPrice(offer.getProductPrice() <= offer.getExpectedPrice());
                 offer.setIsFavourite(false);
                 offerRepository.save(offer);
+                categoryRepository.save(new Category(offer.getCategory()));
                 return ResponseEntity.ok(offer);
             } else return ResponseEntity.status(HttpStatus.IM_USED).build();
         } else
@@ -129,28 +134,15 @@ public class OfferController {
         return offerRepository.findOffersByDisplayedNameContainingIgnoreCaseOrderByIsFavouriteDesc(seq);
     }
 
-    /***CategoryId***/
-    @GetMapping(params = "categoryId")
-    public List<Offer> getOffersByCategoryId(@RequestParam Long categoryId,
-                                             @RequestParam(required = false) String sortParam,
-                                             @RequestParam(required = false) String direction) {
-        if (sortParam == null && direction == null)
-            return offerRepository.findOffersByCategoryIdOrderByIsFavouriteDesc(categoryId);
-        else if (offerService.checkSortingParameters(sortParam, direction))
-            return offerRepository.findOffersByCategoryIdOrderByIsFavouriteDesc(categoryId,
-                    Sort.by(Sort.Direction.fromString(direction), sortParam));
-        else return Collections.emptyList();
-    }
-
     /***CategoryName***/
     @GetMapping(params = "categoryName")
     public List<Offer> getOffersByCategoryName(@RequestParam String categoryName,
                                                @RequestParam(required = false) String sortParam,
                                                @RequestParam(required = false) String direction) {
         if (sortParam == null && direction == null)
-            return offerRepository.findOffersByCategoryNameOrderByIsFavouriteDesc(categoryName);
+            return offerRepository.findOffersByCategoryOrderByIsFavouriteDesc(categoryName);
         else if (offerService.checkSortingParameters(sortParam, direction))
-            return offerRepository.findOffersByCategoryNameOrderByIsFavouriteDesc(categoryName,
+            return offerRepository.findOffersByCategoryOrderByIsFavouriteDesc(categoryName,
                     Sort.by(Sort.Direction.fromString(direction), sortParam));
         else return Collections.emptyList();
     }
@@ -167,28 +159,15 @@ public class OfferController {
         else return Collections.emptyList();
     }
 
-    /***WithGoodPriceAndCategoryId***/
-    @GetMapping(value = "/goodPrice", params = "categoryId")
-    public List<Offer> getOffersWithGoodPriceByCategoryId(@RequestParam Long categoryId,
-                                                          @RequestParam(required = false) String sortParam,
-                                                          @RequestParam(required = false) String direction) {
-        if (sortParam == null && direction == null)
-            return offerRepository.findByIsGoodPriceTrueAndCategoryIdOrderByIsFavouriteDesc(categoryId);
-        else if (offerService.checkSortingParameters(sortParam, direction))
-            return offerRepository.findByIsGoodPriceTrueAndCategoryIdOrderByIsFavouriteDesc(categoryId,
-                    Sort.by(Sort.Direction.fromString(direction), sortParam));
-        else return Collections.emptyList();
-    }
-
     /***WithGoodPriceAndCategoryName***/
     @GetMapping(value = "/goodPrice", params = "categoryName")
     public List<Offer> getOffersWithGoodPriceByCategoryName(@RequestParam String categoryName,
                                                             @RequestParam(required = false) String sortParam,
                                                             @RequestParam(required = false) String direction) {
         if (sortParam == null && direction == null)
-            return offerRepository.findByIsGoodPriceTrueAndCategoryNameOrderByIsFavouriteDesc(categoryName);
+            return offerRepository.findByIsGoodPriceTrueAndCategoryOrderByIsFavouriteDesc(categoryName);
         else if (offerService.checkSortingParameters(sortParam, direction))
-            return offerRepository.findByIsGoodPriceTrueAndCategoryNameOrderByIsFavouriteDesc(categoryName,
+            return offerRepository.findByIsGoodPriceTrueAndCategoryOrderByIsFavouriteDesc(categoryName,
                     Sort.by(Sort.Direction.fromString(direction), sortParam));
         else return Collections.emptyList();
     }

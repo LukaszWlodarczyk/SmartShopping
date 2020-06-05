@@ -49,6 +49,14 @@ public class AllegroServiceImpl implements AllegroService {
         JSONObject items = body.getJSONObject("items");
         JSONArray promoted = items.getJSONArray("promoted");
         JSONArray allOffers = items.getJSONArray("regular");
+        JSONObject categories = body.getJSONObject("categories");
+        JSONArray subcategories = categories.getJSONArray("subcategories");
+        String category;
+        if (subcategories.length() > 0) {
+            category = subcategories.getJSONObject(0).getString("name");
+        } else {
+            category = "Inna";
+        }
 
         for (int i = 0; i < promoted.length(); i++) {
             allOffers.put(promoted.getJSONObject(i));
@@ -67,7 +75,6 @@ public class AllegroServiceImpl implements AllegroService {
         String offerName = searchedOffer.getString("name");
         String offerPrice = searchedOffer.getJSONObject("sellingMode").getJSONObject("price").getString("amount");
         int offerAvailableUnits = searchedOffer.getJSONObject("stock").getInt("available");
-        String categoryId = searchedOffer.getJSONObject("category").getString("id");
 
         return new Offer(Long.parseLong(offerId),
                 offerUrl,
@@ -75,6 +82,6 @@ public class AllegroServiceImpl implements AllegroService {
                 displayedName,
                 Double.parseDouble(offerPrice),
                 offerAvailableUnits,
-                new Category(Long.parseLong(categoryId)));
+                category);
     }
 }

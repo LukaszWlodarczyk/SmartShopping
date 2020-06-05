@@ -11,11 +11,9 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Category {
     @Id
-    private Long id;
-
     private String name;
 
-    public Category(Long id) {
-        this.id = id;
+    public Category(String name) {
+        this.name = name;
     }
 }

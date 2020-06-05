@@ -3,7 +3,6 @@ package com.zzpj.smartshopping.repositories;
 import com.zzpj.smartshopping.model.Offer;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,25 +13,17 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     List<Offer> findAllByOrderByIsFavouriteDesc(Sort sort);
 
-    List<Offer> findOffersByCategoryNameOrderByIsFavouriteDesc(String name);
+    List<Offer> findOffersByCategoryOrderByIsFavouriteDesc(String category);
 
-    List<Offer> findOffersByCategoryNameOrderByIsFavouriteDesc(String name, Sort sort);
-
-    List<Offer> findOffersByCategoryIdOrderByIsFavouriteDesc(Long id);
-
-    List<Offer> findOffersByCategoryIdOrderByIsFavouriteDesc(Long id, Sort sort);
+    List<Offer> findOffersByCategoryOrderByIsFavouriteDesc(String category, Sort sort);
 
     List<Offer> findByIsGoodPriceTrueOrderByIsFavouriteDesc();
 
     List<Offer> findByIsGoodPriceTrueOrderByIsFavouriteDesc(Sort sort);
 
-    List<Offer> findByIsGoodPriceTrueAndCategoryIdOrderByIsFavouriteDesc(Long id);
+    List<Offer> findByIsGoodPriceTrueAndCategoryOrderByIsFavouriteDesc(String category);
 
-    List<Offer> findByIsGoodPriceTrueAndCategoryIdOrderByIsFavouriteDesc(Long id, Sort sort);
-
-    List<Offer> findByIsGoodPriceTrueAndCategoryNameOrderByIsFavouriteDesc(String name);
-
-    List<Offer> findByIsGoodPriceTrueAndCategoryNameOrderByIsFavouriteDesc(String name, Sort sort);
+    List<Offer> findByIsGoodPriceTrueAndCategoryOrderByIsFavouriteDesc(String category, Sort sort);
 
     List<Offer> findOffersByDisplayedNameContainingIgnoreCaseOrderByIsFavouriteDesc(String name);
 
