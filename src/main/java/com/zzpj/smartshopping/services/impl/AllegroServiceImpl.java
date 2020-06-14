@@ -1,15 +1,15 @@
 package com.zzpj.smartshopping.services.impl;
 
-import com.zzpj.smartshopping.model.Category;
 import com.zzpj.smartshopping.model.Offer;
 import com.zzpj.smartshopping.services.AllegroService;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-
 
 
 @Service
@@ -75,12 +75,12 @@ public class AllegroServiceImpl implements AllegroService {
         String offerPrice = searchedOffer.getJSONObject("sellingMode").getJSONObject("price").getString("amount");
         int offerAvailableUnits = searchedOffer.getJSONObject("stock").getInt("available");
 
-        return new Offer(Long.parseLong(offerId),
+        return new Offer.Builder(Long.parseLong(offerId),
                 offerUrl,
                 offerName,
                 displayedName,
                 Double.parseDouble(offerPrice),
                 offerAvailableUnits,
-                category);
+                category).build();
     }
 }

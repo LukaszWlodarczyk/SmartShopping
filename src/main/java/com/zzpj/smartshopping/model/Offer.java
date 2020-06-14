@@ -21,7 +21,7 @@ public class Offer {
 
     @NotEmpty
     private String offerName;
-    @Size(min = 3, max=50, message = "Name must be between 3 and 50 characters")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
     private String displayedName;
     private String offerUrl;
     @Positive(message = "price must be positive")
@@ -38,20 +38,57 @@ public class Offer {
     private Boolean isFavourite;
     private Boolean isActive;
 
-    public Offer(Long id,
-                 String offerUrl,
-                 String offerName,
-                 String displayedName,
-                 double productPrice,
-                 int numberOfAvailableUnits,
-                 String category) {
-        this.id = id;
-        this.offerUrl = offerUrl;
-        this.offerName = offerName;
-        this.displayedName = displayedName;
-        this.productPrice = productPrice;
-        this.numberOfAvailableUnits = numberOfAvailableUnits;
-        this.category = category;
+    private Offer(Builder builder) {
+        this.id = builder.id;
+        this.offerUrl = builder.offerUrl;
+        this.offerName = builder.offerName;
+        this.displayedName = builder.displayedName;
+        this.productPrice = builder.productPrice;
+        this.numberOfAvailableUnits = builder.numberOfAvailableUnits;
+        this.category = builder.category;
         this.isActive = true;
+    }
+
+
+    public static class Builder {
+        private Long id;
+        private String offerName;
+        private String displayedName;
+        private String offerUrl;
+        private double productPrice;
+        private double expectedPrice;
+        private int numberOfAvailableUnits;
+        private String category;
+        private Boolean isGoodPrice;
+        private Boolean isFavourite;
+        private Boolean isActive;
+
+        public Builder(Long id, String offerUrl, String offerName, String displayedName, double productPrice, int numberOfAvailableUnits, String category) {
+            this.id = id;
+            this.offerName = offerName;
+            this.displayedName = displayedName;
+            this.offerUrl = offerUrl;
+            this.productPrice = productPrice;
+            this.numberOfAvailableUnits = numberOfAvailableUnits;
+            this.category = category;
+            this.isActive = true;
+        }
+
+        public Builder withExpectedPrice(double expectedPrice) {
+            this.expectedPrice = expectedPrice;
+            this.isGoodPrice = this.productPrice <= expectedPrice;
+            return this;
+        }
+
+        public Builder withIsFavourite(boolean isFavourite) {
+            this.isFavourite = isFavourite;
+            return this;
+        }
+
+        public Offer build() {
+            return new Offer(this);
+        }
+
+
     }
 }

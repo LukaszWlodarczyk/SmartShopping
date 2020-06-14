@@ -29,13 +29,13 @@ class OfferControllerTest {
         MockitoAnnotations.initMocks(this);
         ResponseEntity<Offer> responseEntity;
 
-        Offer expectedOffer = new Offer(123L,
+        Offer expectedOffer = new Offer.Builder(123L,
                 "url",
                 "name",
                 "dispName",
                 500,
                 4,
-                "Elektronika");
+                "Elektronika").build();
 
         Optional<Offer> offerOptional = Optional.empty();
 
@@ -45,13 +45,13 @@ class OfferControllerTest {
         ReflectionTestUtils.setField(offerController, "categoryRepository", categoryRepository);
 
         when(allegroService.getSearchedOfferFromAllegro(any(), any(), any(), any()))
-                .thenReturn(new Offer(123L,
+                .thenReturn(new Offer.Builder(123L,
                         "url",
                         "name",
                         "dispName",
                         500,
                         4,
-                        "Elektronika"));
+                        "Elektronika").build());
 
         when(offerRepository.findById(any())).thenReturn(offerOptional);
 
