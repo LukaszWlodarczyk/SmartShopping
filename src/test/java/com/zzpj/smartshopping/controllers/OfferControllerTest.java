@@ -30,13 +30,13 @@ class OfferControllerTest {
         MockitoAnnotations.initMocks(this);
         ResponseEntity<Offer> responseEntity;
 
-        Offer expectedOffer = new Offer(123L,
+        Offer expectedOffer = new Offer.Builder(123L,
                 "url",
                 "name",
                 "dispName",
                 500,
                 4,
-                "Elektronika");
+                "Elektronika").build();
 
         Optional<Offer> offerOptional = Optional.empty();
 
@@ -66,13 +66,13 @@ class OfferControllerTest {
         ResponseEntity<Offer> actualResponseEntity;
         ResponseEntity<Offer> expectedResponseEntity = ResponseEntity.status(HttpStatus.IM_USED).build();
 
-        Offer expectedOffer = new Offer(123L,
+        Offer expectedOffer = new Offer.Builder(123L,
                 "url",
                 "name",
                 "dispName",
                 500,
                 4,
-                "Elektronika");
+                "Elektronika").build();
 
         Optional<Offer> offerOptional = Optional.of(expectedOffer);
 
