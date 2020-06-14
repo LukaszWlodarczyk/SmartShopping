@@ -22,8 +22,13 @@ public class OfferHistory {
     @Positive
     private Long id;
 
+    public OfferHistory(Long offerId, double price, LocalDateTime date){
+        this.offerId = offerId;
+        this.price = price;
+        this.date = date;
+    }
     @Positive
-    private int offerId;
+    private Long offerId;
     @Positive
     private double price;
     private LocalDateTime date;

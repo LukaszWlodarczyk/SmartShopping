@@ -1,7 +1,9 @@
 package com.zzpj.smartshopping.services.impl;
 
 import com.zzpj.smartshopping.model.Offer;
+import com.zzpj.smartshopping.model.OfferHistory;
 import com.zzpj.smartshopping.model.SortingParameter;
+import com.zzpj.smartshopping.repositories.OfferHistoryRepository;
 import com.zzpj.smartshopping.repositories.OfferRepository;
 import com.zzpj.smartshopping.repositories.SortingParameterRepository;
 import com.zzpj.smartshopping.services.AllegroService;
@@ -11,6 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLSyntaxErrorException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.TimerTask;
@@ -23,6 +28,9 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
 
     @Autowired
     private OfferRepository offerRepository;
+
+    @Autowired
+    private OfferHistoryRepository offerHistoryRepository;
 
     @Autowired
     private AllegroService allegroService;
@@ -58,7 +66,8 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
         } else return false;
     }
 
-    @Scheduled(fixedDelay = 600000)
+//    @Scheduled(fixedDelay = 600000)
+    @Scheduled(fixedDelay = 10000)
     @Override
     public void run() {
         List<Offer> offers = offerRepository.findAll();
@@ -67,6 +76,30 @@ public class OfferServiceImpl extends TimerTask implements OfferService {
                 offer.setIsActive(false);
                 offerRepository.save(offer);
             }
+            else {
+                List<OfferHistory> offerHistoryByOfferID = offerHistoryRepository.findAllByOfferId(offer.getId());
+                if (!offerHistoryByOfferID.isEmpty()){
+                    OfferHistory lastOffer = offerHistoryByOfferID.get(offerHistoryByOfferID.size()-1);
+                    if (lastOffer.getPrice() != offer.getProductPrice()) {
+                        LocalDateTime date = LocalDateTime.now();
+                        OfferHistory offerHistory = new OfferHistory(offer.getId(), offer.getProductPrice(), date);
+                        offerHistoryRepository.save(offerHistory);
+                    }
+//                Zeby pokazac ze dziala xD
+//                    if (lastOffer.getPrice() == offer.getProductPrice()) {
+//                        LocalDateTime date = LocalDateTime.now();
+//                        OfferHistory offerHistory = new OfferHistory(offer.getId(), offer.getProductPrice(), date);
+//                        offerHistoryRepository.save(offerHistory);
+//                        System.out.println("Testowa funkcja zapisywania obiektow w historii");
+//                    }
+                }
+                else {
+                    LocalDateTime date = LocalDateTime.now();
+                    OfferHistory offerHistory = new OfferHistory(offer.getId(), offer.getProductPrice(), date);
+                    offerHistoryRepository.save(offerHistory);
+                }
+            }
         }
+//        System.out.println(offerHistoryRepository.findAll());
     }
 }
