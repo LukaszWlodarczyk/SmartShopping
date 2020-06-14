@@ -12,9 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import javax.validation.Valid;
+import java.util.*;
 
 @RestController
 @RequestMapping("/offers")
@@ -31,11 +30,11 @@ public class OfferController {
 
     /*************add new offer*******************/
     @PostMapping(value = "/{id}", params = {"searchedPhrase", "expectedPrice"})
-    public ResponseEntity<Offer> addOffer(@PathVariable Long id,
+    public ResponseEntity<Offer> addOffer(@PathVariable @Valid @RequestBody Long id,
                                           @RequestParam String offerUrl,
                                           @RequestParam String searchedPhrase,
-                                          @RequestParam String displayedName,
-                                          @RequestParam double expectedPrice) {
+                                          @RequestParam @Valid @RequestBody String displayedName,
+                                          @RequestParam @Valid @RequestBody double expectedPrice) {
         Offer offer = allegroService.getSearchedOfferFromAllegro(Long.toString(id),
                 offerUrl,
                 searchedPhrase,
@@ -55,7 +54,7 @@ public class OfferController {
 
     /************add/delete from favourite***********************/
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Offer> changeFavourite(@PathVariable Long id) {
+    public ResponseEntity<Offer> changeFavourite(@PathVariable @Valid @RequestBody Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
         if (offer.isPresent()) {
             offer.get().setIsFavourite(!offer.get().getIsFavourite());
@@ -68,8 +67,8 @@ public class OfferController {
     /************change expected price*********************/
     @PutMapping(value = "/{id}", params = "expectedPrice")
     public ResponseEntity<Offer> changeExpectedPrice(
-            @PathVariable Long id,
-            @RequestParam double expectedPrice) {
+            @PathVariable @Valid @RequestBody Long id,
+            @RequestParam @Valid @RequestBody double expectedPrice) {
         Optional<Offer> offer = offerRepository.findById(id);
         if (offer.isPresent()) {
             offer.get().setExpectedPrice(expectedPrice);
@@ -82,7 +81,7 @@ public class OfferController {
 
     /***********update offer from allegro*******************/
     @PutMapping(value = "/{id}/update")
-    public ResponseEntity<Offer> updateOffer(@PathVariable Long id) {
+    public ResponseEntity<Offer> updateOffer(@PathVariable @Valid @RequestBody Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
         if (offer.isPresent()) {
             if (!offerService.updateOffer(offer.get())) {
@@ -94,7 +93,7 @@ public class OfferController {
 
     /*****************delete offer***************/
     @DeleteMapping("/{id}")
-    public ResponseEntity<Offer> deleteOffer(@PathVariable Long id) {
+    public ResponseEntity<Offer> deleteOffer(@PathVariable @Valid @RequestBody Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
         if (offer.isPresent()) {
             offerRepository.deleteById(id);
@@ -104,7 +103,7 @@ public class OfferController {
 
     /************get offer by id************/
     @GetMapping("/{id}")
-    public ResponseEntity<Offer> getOfferById(@PathVariable Long id) {
+    public ResponseEntity<Offer> getOfferById(@PathVariable @Valid @RequestBody Long id) {
         Optional<Offer> offer = offerRepository.findById(id);
         return offer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 //        if (offer.isPresent())
@@ -136,7 +135,7 @@ public class OfferController {
 
     /***CategoryName***/
     @GetMapping(params = "categoryName")
-    public List<Offer> getOffersByCategoryName(@RequestParam String categoryName,
+    public List<Offer> getOffersByCategoryName(@RequestParam @Valid @RequestBody String categoryName,
                                                @RequestParam(required = false) String sortParam,
                                                @RequestParam(required = false) String direction) {
         if (sortParam == null && direction == null)
@@ -161,7 +160,7 @@ public class OfferController {
 
     /***WithGoodPriceAndCategoryName***/
     @GetMapping(value = "/goodPrice", params = "categoryName")
-    public List<Offer> getOffersWithGoodPriceByCategoryName(@RequestParam String categoryName,
+    public List<Offer> getOffersWithGoodPriceByCategoryName(@RequestParam @Valid @RequestBody String categoryName,
                                                             @RequestParam(required = false) String sortParam,
                                                             @RequestParam(required = false) String direction) {
         if (sortParam == null && direction == null)
