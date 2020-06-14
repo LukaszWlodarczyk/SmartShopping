@@ -44,9 +44,12 @@ public class Offer {
         this.offerName = builder.offerName;
         this.displayedName = builder.displayedName;
         this.productPrice = builder.productPrice;
+        this.expectedPrice = builder.expectedPrice;
         this.numberOfAvailableUnits = builder.numberOfAvailableUnits;
         this.category = builder.category;
-        this.isActive = true;
+        this.isFavourite = builder.isFavourite;
+        this.isGoodPrice = builder.isGoodPrice;
+        this.isActive = builder.isActive;
     }
 
 
@@ -88,7 +91,5 @@ public class Offer {
         public Offer build() {
             return new Offer(this);
         }
-
-
     }
 }
