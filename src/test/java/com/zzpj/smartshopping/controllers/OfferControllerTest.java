@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -45,17 +46,11 @@ class OfferControllerTest {
         ReflectionTestUtils.setField(offerController, "categoryRepository", categoryRepository);
 
         when(allegroService.getSearchedOfferFromAllegro(any(), any(), any(), any()))
-                .thenReturn(new Offer(123L,
-                        "url",
-                        "name",
-                        "dispName",
-                        500,
-                        4,
-                        "Elektronika"));
+                .thenReturn(expectedOffer);
 
         when(offerRepository.findById(any())).thenReturn(offerOptional);
 
-        responseEntity = offerController.addOffer(125L,
+        responseEntity = offerController.addOffer(123L,
                 "url",
                 "searchedPhrase",
                 "dispName",
@@ -63,5 +58,53 @@ class OfferControllerTest {
         Offer actualOffer = responseEntity.getBody();
 
         assertEquals(expectedOffer, actualOffer);
+    }
+
+    @Test
+    void addOffer_alreadyExistingOffer_shouldReturnImUsed() {
+        MockitoAnnotations.initMocks(this);
+        ResponseEntity<Offer> actualResponseEntity;
+        ResponseEntity<Offer> expectedResponseEntity = ResponseEntity.status(HttpStatus.IM_USED).build();
+
+        Offer expectedOffer = new Offer(123L,
+                "url",
+                "name",
+                "dispName",
+                500,
+                4,
+                "Elektronika");
+
+        Optional<Offer> offerOptional = Optional.of(expectedOffer);
+
+        when(allegroService.getSearchedOfferFromAllegro(any(), any(), any(), any()))
+                .thenReturn(expectedOffer);
+
+        when(offerRepository.findById(any())).thenReturn(offerOptional);
+
+        actualResponseEntity = offerController.addOffer(123L,
+                "url",
+                "searchedPhrase",
+                "dispName",
+                400);
+
+        assertEquals(expectedResponseEntity, actualResponseEntity);
+    }
+
+    @Test
+    void addOffer_nullResponseFromApi_shouldReturnNotFound() {
+        MockitoAnnotations.initMocks(this);
+        ResponseEntity<Offer> actualResponseEntity;
+        ResponseEntity<Offer> expectedResponseEntity = ResponseEntity.notFound().build();
+
+        when(allegroService.getSearchedOfferFromAllegro(any(), any(), any(), any()))
+                .thenReturn(null);
+
+        actualResponseEntity = offerController.addOffer(123L,
+                "url",
+                "searchedPhrase",
+                "dispName",
+                400);
+
+        assertEquals(expectedResponseEntity, actualResponseEntity);
     }
 }
