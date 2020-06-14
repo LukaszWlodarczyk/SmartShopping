@@ -107,4 +107,40 @@ class OfferControllerTest {
 
         assertEquals(expectedResponseEntity, actualResponseEntity);
     }
+
+    @Test
+    void changeFavourite_offerExists_shouldChange() {
+        MockitoAnnotations.initMocks(this);
+        ResponseEntity<Offer> responseEntity;
+
+        Offer offer = new Offer.Builder(123L,
+                "url",
+                "name",
+                "dispName",
+                500,
+                4,
+                "Elektronika").build();
+
+        Offer expectedOffer = new Offer.Builder(123L,
+                "url",
+                "name",
+                "dispName",
+                500,
+                4,
+                "Elektronika").build();
+        System.out.println(expectedOffer);
+
+        Optional<Offer> offerOptional = Optional.ofNullable(offer);
+
+        ReflectionTestUtils.setField(offer, "isFavourite", false);
+        ReflectionTestUtils.setField(expectedOffer, "isFavourite", true);
+
+
+        when(offerRepository.findById(any())).thenReturn(offerOptional);
+
+        responseEntity = offerController.changeFavourite(123L);
+        Offer actualOffer = responseEntity.getBody();
+
+        assertEquals(expectedOffer, actualOffer);
+    }
 }

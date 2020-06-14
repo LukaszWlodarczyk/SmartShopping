@@ -80,7 +80,7 @@ public class Offer {
             return this;
         }
 
-        public Builder withIsFavourite(boolean isFavourite) {
+        public Builder withIsFavourite(Boolean isFavourite) {
             this.isFavourite = isFavourite;
             return this;
         }
