@@ -1,7 +1,8 @@
 package com.zzpj.smartshopping.controllers;
-import static org.junit.jupiter.api.Assertions.*;
+
 import com.zzpj.smartshopping.model.Offer;
-import com.zzpj.smartshopping.repositories.*;
+import com.zzpj.smartshopping.repositories.CategoryRepository;
+import com.zzpj.smartshopping.repositories.OfferRepository;
 import com.zzpj.smartshopping.services.AllegroService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,6 +14,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -119,7 +121,7 @@ class OfferControllerTest {
                 "dispName",
                 500,
                 4,
-                "Elektronika").build();
+                "Elektronika").withIsFavourite(false).build();
 
         Offer expectedOffer = new Offer.Builder(123L,
                 "url",
@@ -127,14 +129,10 @@ class OfferControllerTest {
                 "dispName",
                 500,
                 4,
-                "Elektronika").build();
+                "Elektronika").withIsFavourite(true).build();
         System.out.println(expectedOffer);
 
         Optional<Offer> offerOptional = Optional.ofNullable(offer);
-
-        ReflectionTestUtils.setField(offer, "isFavourite", false);
-        ReflectionTestUtils.setField(expectedOffer, "isFavourite", true);
-
 
         when(offerRepository.findById(any())).thenReturn(offerOptional);
 
