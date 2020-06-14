@@ -29,7 +29,7 @@ class OfferControllerTest {
         MockitoAnnotations.initMocks(this);
         ResponseEntity<Offer> responseEntity;
 
-        Offer offer = new Offer(123L,
+        Offer expectedOffer = new Offer(123L,
                 "url",
                 "name",
                 "dispName",
@@ -39,9 +39,9 @@ class OfferControllerTest {
 
         Optional<Offer> offerOptional = Optional.empty();
 
-        ReflectionTestUtils.setField(offer, "isGoodPrice", false);
-        ReflectionTestUtils.setField(offer, "isFavourite", false);
-        ReflectionTestUtils.setField(offer, "expectedPrice", 400);
+        ReflectionTestUtils.setField(expectedOffer, "isGoodPrice", false);
+        ReflectionTestUtils.setField(expectedOffer, "isFavourite", false);
+        ReflectionTestUtils.setField(expectedOffer, "expectedPrice", 400);
         ReflectionTestUtils.setField(offerController, "categoryRepository", categoryRepository);
 
         when(allegroService.getSearchedOfferFromAllegro(any(), any(), any(), any()))
@@ -60,7 +60,8 @@ class OfferControllerTest {
                 "searchedPhrase",
                 "dispName",
                 400);
+        Offer actualOffer = responseEntity.getBody();
 
-        assertEquals(offer,responseEntity.getBody());
+        assertEquals(expectedOffer, actualOffer);
     }
 }
